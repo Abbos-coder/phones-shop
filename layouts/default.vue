@@ -68,15 +68,16 @@ export default {
           title: "Phones",
           to: "/phones",
         },
-        {
-          icon: "mdi-cloud-upload",
-          title: "Upload new Phone",
-          to: "/uploadPhones",
-        },
+
         {
           icon: "mdi-apps",
           title: "Gelery",
           to: "/",
+        },
+        {
+          icon: "mdi-cloud-upload",
+          title: "Upload new Phone",
+          to: "/uploadPhones",
         },
         {
           icon: "mdi-upload",

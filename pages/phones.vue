@@ -2,12 +2,13 @@
   <section>
     <v-row>
       <v-col v-for="(phone, idx) in phones" :key="idx" cols="12" md="4">
-        <v-card class="mx-auto mt-12 mb-4" max-width="324">
+        <v-card class="mx-auto mt-12 mb-4" max-width="324" v-if="phones.length">
           <div class="card-img">
             <v-img
               class="card--image"
               :src="`http://localhost:5050/${phone.image.path}`"
               :lazy-src="`http://localhost:5050/${phone.image.path}`"
+              @click.prevent="$router.push(`/${phone._id}`)"
             ></v-img>
           </div>
 
@@ -37,6 +38,12 @@
             </v-btn>
           </v-card-actions>
         </v-card>
+        <!-- LOADER Skeleton  -->
+        <v-skeleton-loader
+          v-else
+          v-bind="attrs"
+          type="image, article"
+        ></v-skeleton-loader>
       </v-col>
     </v-row>
   </section>
@@ -51,42 +58,49 @@ export default {
   data: () => ({
     selection: "",
     rating: 4.5,
+
+    attrs: {
+      class: "mb-6",
+      boilerplate: true,
+      elevation: 2,
+    },
   }),
   methods: {
     async toCart(phone) {
       const store = this.$store.state.cart;
+      store.push(phone);
 
-      let formData = new FormData();
-      formData.append("title", phone.title);
-      formData.append("categoryId", phone.category._id);
-      formData.append("brand", phone.brand);
-      formData.append("price", phone.price);
-      formData.append("tags[]", phone.tags);
-      formData.append("status", phone.status);
-      formData.append("image", phone.image);
-      console.log(formData);
+      // let formData = new FormData();
+      // formData.append("title", phone.title);
+      // formData.append("categoryId", phone.category._id);
+      // formData.append("brand", phone.brand);
+      // formData.append("price", phone.price);
+      // formData.append("tags[]", phone.tags);
+      // formData.append("status", phone.status);
+      // formData.append("image", phone.image);
+      // console.log(formData);
 
-      await this.$axios
-        .$post("/api/cart", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
-        .then((res) => {
-          store.push(phone);
-          console.log(res, "success !");
-          this.$toasted.success("Your product added to your cart", {
-            theme: "bubble",
-            position: "top-right",
-            duration: 5000,
-            icon: "done",
-          });
-        })
-        .catch((error) => {
-          console.log(error);
-          console.log(formData);
-          this.$toasted.error(error);
-        });
+      // await this.$axios
+      //   .$post("/api/cart", formData, {
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //     },
+      //   })
+      //   .then((res) => {
+      //     store.push(phone);
+      //     console.log(res, "success !");
+      //     this.$toasted.success("Your product added to your cart", {
+      //       theme: "bubble",
+      //       position: "top-right",
+      //       duration: 5000,
+      //       icon: "done",
+      //     });
+      //   })
+      //   .catch((error) => {
+      //     console.log(error);
+      //     console.log(formData);
+      //     this.$toasted.error(error);
+      //   });
     },
   },
 };
@@ -101,5 +115,8 @@ export default {
   height: 100%;
   object-fit: cover;
   object-position: center;
+}
+.v-image {
+  cursor: pointer;
 }
 </style>

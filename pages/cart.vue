@@ -1,6 +1,6 @@
 <template>
   <section>
-    <h2 class="text-center my-3">Your selected products !</h2>
+    <h1 class="text-center my-3">Your selected products !</h1>
     <h4 v-if="!phones" class="text-center mt-16 mb-6">No product yet !</h4>
     <v-row v-else>
       <v-col v-for="(phone, idx) in phones" :key="idx" cols="12" md="4">
@@ -34,12 +34,8 @@
           <v-card-actions>
             <v-btn color="deep-purple lighten-2"> Buy now </v-btn>
             <v-spacer></v-spacer>
-            <v-btn
-              color="deep-purple lighten-2"
-              text
-              @click="deletePhone(phone)"
-            >
-              to Cart
+            <v-btn color="deep-purple lighten-2" text @click="deletePhone(idx)">
+              remove
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -60,10 +56,20 @@ export default {
   },
   methods: {
     deletePhone(phone) {
-      console.log(phone);
+      this.phones.splice(phone, 1);
     },
   },
 };
 </script>
 
-<style></style>
+<style scoped>
+.card-img {
+  height: 274px !important;
+  overflow: hidden;
+}
+.card-img img {
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+</style>
