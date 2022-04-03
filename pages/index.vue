@@ -31,6 +31,9 @@ export default {
     let files = await $axios.$get("http://localhost:5050/api/upload");
     return { files };
   },
+  data: () => ({
+    users: [{id: 1, name: 'Abbos', age: 24}]
+  })
 };
 </script>
 
